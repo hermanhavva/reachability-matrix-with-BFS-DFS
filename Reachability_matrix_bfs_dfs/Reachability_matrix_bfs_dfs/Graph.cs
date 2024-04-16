@@ -3,7 +3,14 @@ namespace Reachability_matrix_bfs_dfs;
 public class Graph
 {
 
-    public List<Node> Vertexes = new List<Node>();
+    public List<Node> Vertexes;
+    public List<Edge> Edges;
+
+    public Graph(List<Node> vertexes, List<Edge> edges)
+    {
+        Vertexes = vertexes;
+        Edges = edges;
+    }
     public class Node // nested class Node
     {
         public List<Node> AdjacencyList = new List<Node>();
