@@ -1,10 +1,19 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Reachability_matrix_bfs_dfs;
+﻿using Reachability_matrix_bfs_dfs;
 
+//  testing the functionality of graph generator
+var graphGenerator = new GraphGenerator();
+var graph = graphGenerator.GenerateGraph(50, 10);
+var matrix = graph.GetAdjacencyMatrix();
 
-
-
-
+for (int row = 0; row < 10; row++)
+{
+    for (int column = 0; column < 10; column++)
+    {
+        Console.Write(matrix[row,column]);
+    }
+    Console.Write("\n");
+}
+/*
 var node1 = new Graph.Node();
 var node2 = new Graph.Node();
 var node3 = new Graph.Node();
@@ -33,4 +42,4 @@ for (int row = 0; row < vertrxSet.Count; row++)
     }
     Console.Write("\n");
 }
-Console.WriteLine(node1.GetAdjacencySet());
+Console.WriteLine(node1.GetAdjacencySet());*/
