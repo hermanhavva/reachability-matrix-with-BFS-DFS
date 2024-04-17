@@ -57,13 +57,11 @@ public class Graph
         }
         return adjacencyMatrix;
     }
-
-
-public class Node // nested class Node
+    
+    public class Node // nested class Node
     {
-        private HashSet<Node> _adjacencySet = new HashSet<Node>();
-        
-
+        private HashSet<Node> _adjacencySet = new();
+   
         public void AddNeighbor(Node neighbor)
         {
             _adjacencySet.Add(neighbor);
@@ -73,19 +71,6 @@ public class Node // nested class Node
         {
             return _adjacencySet;
         }
-    }
-
-    public class Edge // nested class Edge
-    {
-        public Node Vertex1;
-        public Node Vertex2;
-
-        public Edge(Node adjacentVertex1, Node adjacentVertex2)
-        {
-            Vertex1 = adjacentVertex1;
-            Vertex2 = adjacentVertex2;
-        }
-        
     }
 
 }
