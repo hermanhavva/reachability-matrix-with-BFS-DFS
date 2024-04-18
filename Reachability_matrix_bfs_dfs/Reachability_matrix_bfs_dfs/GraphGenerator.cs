@@ -2,7 +2,7 @@ namespace Reachability_matrix_bfs_dfs;
 
 public class GraphGenerator // this class will automate the process of generating the graph
 {
-    public Graph GenerateGraph(int density, int vertexAmount)
+    public Graph GenerateGraph(uint density, uint vertexAmount)
     {
         var vertexSet = GenerateVertexSet(vertexAmount);
         var edgeSet = GenerateEdgeSet(density, vertexSet);
@@ -11,7 +11,7 @@ public class GraphGenerator // this class will automate the process of generatin
         return graph;
     }
 
-    private HashSet<Tuple<Graph.Node, Graph.Node>> GenerateEdgeSet(int density, HashSet<Graph.Node> vertexSet)
+    private HashSet<Tuple<Graph.Node, Graph.Node>> GenerateEdgeSet(uint density, HashSet<Graph.Node> vertexSet)
     {
         HashSet<Tuple<Graph.Node, Graph.Node>> edgeSet = new();
         foreach (var startVertex in vertexSet)
@@ -30,22 +30,23 @@ public class GraphGenerator // this class will automate the process of generatin
         return edgeSet;
     }
 
-    private HashSet<Graph.Node> GenerateVertexSet(int vertexNumber)
+    private HashSet<Graph.Node> GenerateVertexSet(uint vertexNumber)
     {
         HashSet<Graph.Node> vertexSet = new();
         for (int i = 0; i < vertexNumber; i++)
         {
-            var node = new Graph.Node();
+            var name = 'v' + i.ToString();
+            var node = new Graph.Node(name);
             vertexSet.Add(node);
         }
 
         return vertexSet;
     }
 
-    private bool GenerateWithProbability(int probability)
+    private bool GenerateWithProbability(uint probability)
     {
         Random random = new Random();
-        double randomValue = random.Next(1, 101); // generates a random number between 0 and 101
+        double randomValue = random.Next(1, 101);  // generates a random number between 0 and 101
         return randomValue < probability;
     }
 }
