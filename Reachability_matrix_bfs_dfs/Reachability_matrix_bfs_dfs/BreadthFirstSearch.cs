@@ -1,6 +1,6 @@
 namespace Reachability_matrix_bfs_dfs;
 
-public class DFS
+public class BreadthFirstSearch
 {
     //  reachability matrix will be of bool values to increase speed
     public (bool[,] ReachabilityMatrix, List<Graph.Node> ListOfVertexes)GetReachabilityMatrix (Graph graph)
@@ -9,9 +9,9 @@ public class DFS
         int amountOfVertexes = graph.VertexesSet.Count;
         bool[,] reachabilityMatrix = new bool[amountOfVertexes, amountOfVertexes];
         int amountOfNodesExplored = 0;
-        for (int i = 0; i < amountOfVertexes; i++)  // the worst scenario is performing DFS for each vertex in the graph
+        for (int i = 0; i < amountOfVertexes; i++)  // the worst scenario is performing BFS for each vertex in the graph
         {
-            var reachabilitySet = StartDFS(vertexList[i]);
+            var reachabilitySet = StartBfsWithAdjacencyList(vertexList[i]);
             amountOfNodesExplored += reachabilitySet.Count;
             if (reachabilitySet.Count == amountOfVertexes)
             {
@@ -62,20 +62,20 @@ public class DFS
         }
         return reachabilityMatrix;
     }
-    private HashSet<Graph.Node> StartDFS(Graph.Node startVertex)
+    private HashSet<Graph.Node> StartBfsWithAdjacencyList(Graph.Node startVertex)
     {
-        Stack<Graph.Node> vertexStack = new();
+        Queue<Graph.Node> vertexStack = new();
         HashSet<Graph.Node> checkedVertexes = new();
-        vertexStack.Push(startVertex);
+        vertexStack.Enqueue(startVertex);
         while (vertexStack.Count > 0)
         {
-            var curVertex = vertexStack.Pop();
+            var curVertex = vertexStack.Dequeue();
             checkedVertexes.Add(curVertex);
             foreach (var neighbourVertex in curVertex.GetAdjacencySet())
             {
                 if (!checkedVertexes.Contains(neighbourVertex))
                 {
-                    vertexStack.Push(neighbourVertex);
+                    vertexStack.Enqueue(neighbourVertex);
                     checkedVertexes.Add(neighbourVertex);
                 }
             }

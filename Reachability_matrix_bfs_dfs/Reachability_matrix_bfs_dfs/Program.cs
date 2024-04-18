@@ -3,10 +3,10 @@
 //  testing the functionality of graph generator
 var graphGenerator = new GraphGenerator();
 
-var graph = graphGenerator.GenerateGraph(20, 10);
+var graph = graphGenerator.GenerateGraph(20, 4);
 var matrix = graph.GetAdjacencyMatrix();
-var gfs = new DFS();
-var reachMatrix = gfs.GetReachabilityMatrix(graph).Item1;
+var dfs = new DepthFirstSearch();
+var reachMatrix = dfs.GetReachabilityMatrix(graph).Item1;
 
 for (int row = 0; row < 4; row++)
 {
