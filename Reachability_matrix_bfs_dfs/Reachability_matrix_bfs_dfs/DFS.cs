@@ -2,11 +2,12 @@ namespace Reachability_matrix_bfs_dfs;
 
 public class DFS
 {
-    public (int[,] ReachabilityMatrix, List<Graph.Node> ListOfVertexes)GetReachabilityMatrix (Graph graph)
+    //  reachability matrix will be of bool values to increase speed
+    public (bool[,] ReachabilityMatrix, List<Graph.Node> ListOfVertexes)GetReachabilityMatrix (Graph graph)
     {
         List<Graph.Node> vertexList = graph.VertexesSet.ToList();
         int amountOfVertexes = graph.VertexesSet.Count;
-        int[,] reachabilityMatrix = new int[amountOfVertexes, amountOfVertexes];
+        bool[,] reachabilityMatrix = new bool[amountOfVertexes, amountOfVertexes];
         int amountOfNodesExplored = 0;
         for (int i = 0; i < amountOfVertexes; i++)  // the worst scenario is performing DFS for each vertex in the graph
         {
@@ -24,23 +25,23 @@ public class DFS
         return (reachabilityMatrix, vertexList);
     }
 
-    private int[,] FillWithOnes(int amountOfVertices)
+    private bool[,] FillWithOnes(int amountOfVertices)
     {
-        int[,] reachabilityMatrix = new int[amountOfVertices,amountOfVertices];
+        bool[,] reachabilityMatrix = new bool[amountOfVertices,amountOfVertices];
         for (int row = 0; row < amountOfVertices; row++)
         {
             for (int column = 0; column < amountOfVertices; column++)
             {
                 if (row == column)
-                    reachabilityMatrix[row, column] = 0;
+                    reachabilityMatrix[row, column] = false;
                 else
-                    reachabilityMatrix[row, column] = 1;
+                    reachabilityMatrix[row, column] = true;
             }
         }
         return reachabilityMatrix;
     }
     
-    private int[,] FillReachabilityMatrix(int[,] reachabilityMatrix, HashSet<Graph.Node> reachableVertSet, List<Graph.Node> verticesList, int vertexAmount)
+    private bool[,] FillReachabilityMatrix(bool[,] reachabilityMatrix, HashSet<Graph.Node> reachableVertSet, List<Graph.Node> verticesList, int vertexAmount)
     {
         HashSet<int> indexOfVerticesSet = new();
         foreach (var vertex in reachableVertSet)
@@ -54,8 +55,8 @@ public class DFS
             {
                 if (indexOfVerticesSet.Contains(row) && indexOfVerticesSet.Contains(column)) 
                 {
-                    reachabilityMatrix[row, column] = 1;
-                    reachabilityMatrix[column, row] = 1;
+                    reachabilityMatrix[row, column] = true;
+                    reachabilityMatrix[column, row] = true;
                 }
             }
         }
