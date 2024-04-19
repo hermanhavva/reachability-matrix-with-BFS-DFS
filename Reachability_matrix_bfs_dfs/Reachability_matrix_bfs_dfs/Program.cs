@@ -4,9 +4,9 @@
 var graphGenerator = new GraphGenerator();
 
 var graph = graphGenerator.GenerateGraph(20, 4);
-var matrix = graph.GetAdjacencyMatrix();
-var dfs = new DepthFirstSearch();
-var reachMatrix = dfs.GetReachabilityMatrix(graph).Item1;
+
+var dfs = new BreadthFirstSearch(graph);
+var reachMatrix = dfs.GetReachabilityMatrixAdjacencyLists(graph);
 
 for (int row = 0; row < 4; row++)
 {

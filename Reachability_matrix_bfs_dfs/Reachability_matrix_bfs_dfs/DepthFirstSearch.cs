@@ -3,65 +3,27 @@ namespace Reachability_matrix_bfs_dfs;
 public class DepthFirstSearch
 {
     //  reachability matrix will be of bool values to increase speed
-    public (bool[,] ReachabilityMatrix, List<Graph.Node> ListOfVertexes)GetReachabilityMatrix (Graph graph)
+    public bool[,] GetReachabilityMatrix (Graph graph)
     {
-        List<Graph.Node> vertexList = graph.VertexesSet.ToList();
         int amountOfVertexes = graph.VertexesSet.Count;
         bool[,] reachabilityMatrix = new bool[amountOfVertexes, amountOfVertexes];
         int amountOfNodesExplored = 0;
         for (int i = 0; i < amountOfVertexes; i++)  // the worst scenario is performing DFS for each vertex in the graph
         {
-            var reachabilitySet = StartDfsWithAdjacencyList(vertexList[i]);
+            var reachabilitySet = StartDfsWithAdjacencyList(graph.VertexesList[i]);
             amountOfNodesExplored += reachabilitySet.Count;
             if (reachabilitySet.Count == amountOfVertexes)
             {
-                return (FillWithOnes(amountOfVertexes), vertexList);
+                return ReachabilityMatrix.FillWithOnes(amountOfVertexes);
             }
-            reachabilityMatrix = FillReachabilityMatrix(reachabilityMatrix, reachabilitySet, vertexList, amountOfVertexes);
+            reachabilityMatrix = ReachabilityMatrix.FillReachabilityMatrix(reachabilityMatrix, reachabilitySet, graph.VertexesList, amountOfVertexes);
             if (amountOfNodesExplored == amountOfVertexes)
-                return (reachabilityMatrix, vertexList);
+                return reachabilityMatrix;
         }
 
-        return (reachabilityMatrix, vertexList);
-    }
-
-    private bool[,] FillWithOnes(int amountOfVertices)
-    {
-        bool[,] reachabilityMatrix = new bool[amountOfVertices,amountOfVertices];
-        for (int row = 0; row < amountOfVertices; row++)
-        {
-            for (int column = 0; column < amountOfVertices; column++)
-            {
-                if (row == column)
-                    reachabilityMatrix[row, column] = false;
-                else
-                    reachabilityMatrix[row, column] = true;
-            }
-        }
         return reachabilityMatrix;
     }
     
-    private bool[,] FillReachabilityMatrix(bool[,] reachabilityMatrix, HashSet<Graph.Node> reachableVertSet, List<Graph.Node> verticesList, int vertexAmount)
-    {
-        HashSet<int> indexOfVerticesSet = new();
-        foreach (var vertex in reachableVertSet)
-        {
-            indexOfVerticesSet.Add(verticesList.IndexOf(vertex));
-        }
-        
-        for (int row = 0; row < vertexAmount; row++)
-        {
-            for (int column = row + 1; column < vertexAmount; column++)
-            {
-                if (indexOfVerticesSet.Contains(row) && indexOfVerticesSet.Contains(column)) 
-                {
-                    reachabilityMatrix[row, column] = true;
-                    reachabilityMatrix[column, row] = true;
-                }
-            }
-        }
-        return reachabilityMatrix;
-    }
     private HashSet<Graph.Node> StartDfsWithAdjacencyList(Graph.Node startVertex)
     {
         Stack<Graph.Node> vertexStack = new();
@@ -71,7 +33,7 @@ public class DepthFirstSearch
         {
             var curVertex = vertexStack.Pop();
             checkedVertexes.Add(curVertex);
-            foreach (var neighbourVertex in curVertex.GetAdjacencySet())
+            foreach (var neighbourVertex in curVertex.GetAdjacencyList()) 
             {
                 if (!checkedVertexes.Contains(neighbourVertex))
                 {
