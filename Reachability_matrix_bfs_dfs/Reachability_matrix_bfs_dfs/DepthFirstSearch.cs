@@ -2,79 +2,97 @@ namespace Reachability_matrix_bfs_dfs;
 
 public class DepthFirstSearch
 {
-    //  reachability matrix will be of bool values to increase speed
-    public bool[,] GetReachabilityMatrix (Graph graph)
+    private  int _amountOfVertices;
+    private int _amountOfNodesExplored;
+    private bool[,]? _reachabilityMatrix; //  reachability matrix will be of bool values to boost the speed
+    private readonly Stack<Graph.Node> _vertexStack = new();
+    private readonly HashSet<Graph.Node> _checkedVertexes = new();
+    private HashSet<Graph.Node> _reachabilitySet = new();
+
+    private void ResetVariablesForNewGraph(Graph graph)
     {
-        int amountOfVertexes = graph.VertexesSet.Count;
-        bool[,] reachabilityMatrix = new bool[amountOfVertexes, amountOfVertexes];
-        int amountOfNodesExplored = 0;
-        for (int i = 0; i < amountOfVertexes; i++)  // the worst scenario is performing DFS for each vertex in the graph
+        _amountOfVertices = graph.VertexesSet.Count;
+        _reachabilityMatrix = new bool[_amountOfVertices, _amountOfVertices];
+        _amountOfNodesExplored = 0;
+        _reachabilitySet.Clear();
+    }
+    
+    //  reachability matrix will be of bool values to increase speed
+    public bool[,]? GetReachabilityMatrixAdjacencyLists(Graph graph)
+    {
+        ResetVariablesForNewGraph(graph);
+        return GetReachabilityMatrix(graph, "LISTS");
+    }
+    
+    public bool[,]? GetReachabilityMatrixAdjacencyMatrix(Graph graph)
+    {
+        ResetVariablesForNewGraph(graph);
+        return GetReachabilityMatrix(graph, "MATRIX");
+    }
+
+    private bool[,]? GetReachabilityMatrix(Graph graph, string mode)
+    {
+        for (int i = 0; i < _amountOfVertices; i++) // the worst scenario is performing DFS for each vertex in the graph
         {
-            var reachabilitySet = StartDfsWithAdjacencyList(graph.VertexesList[i]);
-            amountOfNodesExplored += reachabilitySet.Count;
-            if (reachabilitySet.Count == amountOfVertexes)
+            _checkedVertexes.Clear();       // це додав і запрацювало
+            if (mode == "MATRIX")
+                _reachabilitySet = StartDfsWithAdjacencyMatrix(graph.VertexesList[i], graph);
+            else 
+                _reachabilitySet = StartDfsWithAdjacencyList(graph.VertexesList[i]);
+            
+            _amountOfNodesExplored += _reachabilitySet.Count;
+            if (_reachabilitySet.Count == _amountOfVertices)
             {
-                return ReachabilityMatrix.FillWithOnes(amountOfVertexes);
+                return ReachabilityMatrix.FillWithOnes(_amountOfVertices);
             }
-            reachabilityMatrix = ReachabilityMatrix.FillReachabilityMatrix(reachabilityMatrix, reachabilitySet, graph.VertexesList, amountOfVertexes);
-            if (amountOfNodesExplored == amountOfVertexes)
-                return reachabilityMatrix;
+            _reachabilityMatrix = ReachabilityMatrix.FillReachabilityMatrix(_reachabilityMatrix, _reachabilitySet, graph.VertexesList, _amountOfVertices);
+            if (_amountOfNodesExplored == _amountOfVertices)
+                return _reachabilityMatrix;
         }
 
-        return reachabilityMatrix;
+        return _reachabilityMatrix;
     }
     
     private HashSet<Graph.Node> StartDfsWithAdjacencyList(Graph.Node startVertex)
     {
-        Stack<Graph.Node> vertexStack = new();
-        HashSet<Graph.Node> checkedVertexes = new();
-        vertexStack.Push(startVertex);
-        while (vertexStack.Count > 0)
+        _vertexStack.Push(startVertex);
+        while (_vertexStack.Count > 0)
         {
-            var curVertex = vertexStack.Pop();
-            checkedVertexes.Add(curVertex);
-            foreach (var neighbourVertex in curVertex.GetAdjacencyList()) 
+            var curVertex = _vertexStack.Pop();
+            _checkedVertexes.Add(curVertex);
+            foreach (var neighbourVertex in curVertex.GetAdjacencyList())
             {
-                if (!checkedVertexes.Contains(neighbourVertex))
+                if (!_checkedVertexes.Contains(neighbourVertex))
                 {
-                    vertexStack.Push(neighbourVertex);
-                    checkedVertexes.Add(neighbourVertex);
+                    _vertexStack.Push(neighbourVertex);
+                    _checkedVertexes.Add(neighbourVertex);
                 }
             }
         }
 
-        return checkedVertexes;
+        return _checkedVertexes;
     }
 
-    /*
-    private HashSet<Graph.Node> StartDfsWithAdjacencyMatrix(Graph.Node startVertex)
+    private HashSet<Graph.Node> StartDfsWithAdjacencyMatrix(Graph.Node startVertex, Graph graph)
     {
-        Stack<Graph.Node> vertexStack = new();
-        HashSet<Graph.Node> checkedVertexes = new();
-        vertexStack.Push(startVertex);
-        while (vertexStack.Count > 0)
+        _vertexStack.Push(startVertex);
+        while (_vertexStack.Count > 0)
         {
-            var curVertex = vertexStack.Pop();
-            var neighbourList = curVertex.GetAdjacencySet().ToList();  
-            checkedVertexes.Add(curVertex);
-            for (int i = 0; i < curVertex.GetAdjacencySet().Count; i++)
+            var curVertex = _vertexStack.Pop();
+            _checkedVertexes.Add(curVertex);
+            for (int index = 0; index < _amountOfVertices; index++) // for each vertex check neighbours 
             {
-                if (!checkedVertexes.Contains(neighbourList[i]))  
+                if (graph.AdjacencyMatrix[graph.VertexesList.IndexOf(curVertex), index]) // if there is a neighbour
                 {
-                    vertexStack.Push(neighbourList[i]);
-                    checkedVertexes.Add(neighbourList[i]);
+                    var neighbourVertex = graph.VertexesList[index];
+                    if (!_checkedVertexes.Contains(neighbourVertex))
+                    {
+                        _vertexStack.Push(neighbourVertex); // add to queue
+                        _checkedVertexes.Add(neighbourVertex);
+                    }
                 }
             }
         }
-
-        return checkedVertexes;
+        return _checkedVertexes;
     }
-
-    private Graph.Node GetNextNeighbour(Graph.Node parent, int neighbourIndex)
-    {
-        parent.GetAdjacencySet();
-        return parent.GetAdjacencySet().;
-    }
-    */
-
 }
