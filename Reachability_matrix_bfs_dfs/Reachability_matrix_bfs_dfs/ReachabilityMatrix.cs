@@ -2,9 +2,9 @@ namespace Reachability_matrix_bfs_dfs;
 // the class ReachabilityMatrix will handle all additional processes with creating a reachability matrix  
 public static class ReachabilityMatrix
 {
-    public static bool[,]? FillWithOnes(int amountOfVertices)
+    public static bool[,] FillWithOnes(int amountOfVertices)
     {
-        bool[,]? reachabilityMatrix = new bool[amountOfVertices,amountOfVertices];
+        bool[,] reachabilityMatrix = new bool[amountOfVertices,amountOfVertices];
         for (int row = 0; row < amountOfVertices; row++)
         {
             for (int column = 0; column < amountOfVertices; column++)
@@ -29,10 +29,11 @@ public static class ReachabilityMatrix
         {
             for (int column = row + 1; column < vertexAmount; column++)
             {
-                if (indexOfVerticesSet.Contains(row) && indexOfVerticesSet.Contains(column)) 
+                if (indexOfVerticesSet.Contains(row) && indexOfVerticesSet.Contains(column) && reachabilityMatrix != null) 
                 {
                     reachabilityMatrix[row, column] = true;
-                    reachabilityMatrix[column, row] = true;  // for filling both sides of matrix
+                    reachabilityMatrix[column, row] = true; // for filling both sides of matrix
+                 
                 }
             }
         }
