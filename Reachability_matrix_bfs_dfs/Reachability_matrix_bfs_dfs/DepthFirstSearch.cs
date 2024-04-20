@@ -1,13 +1,15 @@
 namespace Reachability_matrix_bfs_dfs;
+using System.Diagnostics;
 
 public class DepthFirstSearch
 {
     private  int _amountOfVertices;
     private int _amountOfNodesExplored;
-    private bool[,]? _reachabilityMatrix; //  reachability matrix will be of bool values to boost the speed
+    private bool[,]? _reachabilityMatrix;   //  reachability matrix will be of bool values to boost the speed
     private readonly Stack<Graph.Node> _vertexStack = new();
     private readonly HashSet<Graph.Node> _checkedVertexes = new();
     private HashSet<Graph.Node> _reachabilitySet = new();
+    private readonly Stopwatch _stopwatch = new();   // will be used for retrieving exe time
 
     private void ResetVariablesForNewGraph(Graph graph)
     {
@@ -18,23 +20,29 @@ public class DepthFirstSearch
     }
     
     //  reachability matrix will be of bool values to increase speed
-    public bool[,]? GetReachabilityMatrixAdjacencyLists(Graph graph)
+    public (bool[,]? reachabilityMatrix, TimeSpan executanceTime) GetReachabilityMatrixAdjacencyLists(Graph graph)
     {
         ResetVariablesForNewGraph(graph);
-        return GetReachabilityMatrix(graph, "LISTS");
+        _stopwatch.Start();
+        var reachabilityMatrix = GetReachabilityMatrix(graph, "LISTS");
+        _stopwatch.Stop();
+        return (reachabilityMatrix, _stopwatch.Elapsed);
     }
     
-    public bool[,]? GetReachabilityMatrixAdjacencyMatrix(Graph graph)
+    public (bool[,]? reachabilityMatrix, TimeSpan executanceTime) GetReachabilityMatrixAdjacencyMatrix(Graph graph)
     {
         ResetVariablesForNewGraph(graph);
-        return GetReachabilityMatrix(graph, "MATRIX");
+        _stopwatch.Start();
+        var reachabilityMatrix = GetReachabilityMatrix(graph, "MATRIX");
+        _stopwatch.Stop();
+        return (reachabilityMatrix, _stopwatch.Elapsed);
     }
 
     private bool[,]? GetReachabilityMatrix(Graph graph, string mode)
     {
         for (int i = 0; i < _amountOfVertices; i++) // the worst scenario is performing DFS for each vertex in the graph
         {
-            _checkedVertexes.Clear();       // це додав і запрацювало
+            _checkedVertexes.Clear();       
             if (mode == "MATRIX")
                 _reachabilitySet = StartDfsWithAdjacencyMatrix(graph.VertexesList[i], graph);
             else 
