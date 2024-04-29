@@ -1,5 +1,5 @@
 # Building a Reachability Matrix with BFS and DFS 
-# Purpose 
+# 🎯 Purpose 
 To gather and analyse the time complexity of usage of BFS and DFS algorithms for building a Matrix of Reachability of a randomly generated Graph 
 
 **We compare:**
@@ -10,10 +10,11 @@ Adjacency Matrix and Adjacency Lists
 **DFS** on 
 Adjacency Matrix and Adjacency Lists
 
-# How we gather data and compare it
-Perform 20+ iterations with different Graphs but same parameters(density, verticesAmount) and find average time for each algorithm and its modification.
+# 📊 How we gather data and compare it
+Perform 20+ iterations with different Graphs but same parameters(density, verticesAmount) and find average time for each algorithm and its modification. 
+Little spoiler: DFS is on average faster than BFS.  
 
-# Code info 
+# 👨‍💻 Code info 
 `Graph` class is a reperesentation of an undirecred unweighted graph. It features methods like `.GetAdjacencyMatrix()`, `.GetAdjacencyLists()` for effective retrieval the representation of the `Graph` instance. There are also methods to print both things.
 
 `Graph.Node` class is nested inside `Graph` class, essentialy a part of the `Graph` class. Each `Node` instance has a name and method `.AddNeighbour()` which enables building Adjacency List for each vertex in Graph.  
