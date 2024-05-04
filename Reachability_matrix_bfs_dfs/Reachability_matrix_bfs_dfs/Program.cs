@@ -10,7 +10,7 @@ TimeSpan totalTimeDfsOnLists = new();
 
 BreadthFirstSearch bfs = new();
 DepthFirstSearch dfs = new();
-int numberOfExperiments = 40;  // 40 повторів експериментів
+double numberOfExperiments = 40;  // 40 повторів експериментів
 
 for (int counter = 1; counter <= numberOfExperiments; counter++)
 {

@@ -37,7 +37,7 @@ public class Graph
         AdjacencyMatrix = GetAdjacencyMatrix();
     }
 
-    private Dictionary<Node, List<Node>> GetAdjacencyLists()
+    public Dictionary<Node, List<Node>> GetAdjacencyLists()
     {
         Dictionary<Node, List<Node>> adjacencyDict = new();  // key is a vertex and the list of values is adjacent vertexes
         var listOfVertexes = VertexesSet.ToList();
@@ -51,7 +51,7 @@ public class Graph
 
  
     
-    private bool[,] GetAdjacencyMatrix()
+    public bool[,] GetAdjacencyMatrix()
     {
         int matrixSize = VertexesList.Count;
         bool[,] adjacencyMatrix = new bool[matrixSize, matrixSize];  // the matrix of adjacency is square

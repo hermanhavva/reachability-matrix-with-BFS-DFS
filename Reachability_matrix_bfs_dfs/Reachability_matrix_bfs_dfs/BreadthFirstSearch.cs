@@ -21,8 +21,9 @@ public class BreadthFirstSearch
     public (bool[,]? reachabilityMatrix, TimeSpan executanceTime) GetReachabilityMatrixAdjacencyLists(Graph graph)
     {
         ResetVariablesForNewGraph(graph);
+        string mode = "LISTS";
         _stopwatch.Start();
-        var reachabilityMatrix = GetReachabilityMatrix(graph, "LISTS");
+        var reachabilityMatrix = GetReachabilityMatrix(graph, mode);
         _stopwatch.Stop();
         return (reachabilityMatrix, _stopwatch.Elapsed);
     }
@@ -30,8 +31,9 @@ public class BreadthFirstSearch
     public (bool[,]? reachabilityMatrix, TimeSpan executanceTime) GetReachabilityMatrixAdjacencyMatrix(Graph graph)
     {
         ResetVariablesForNewGraph(graph);
+        string mode = "MATRIX";
         _stopwatch.Start();
-        var reachabilityMatrix = GetReachabilityMatrix(graph, "MATRIX");
+        var reachabilityMatrix = GetReachabilityMatrix(graph, mode);
         _stopwatch.Stop();
         return (reachabilityMatrix, _stopwatch.Elapsed);
     }
